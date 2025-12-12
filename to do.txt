@@ -1,0 +1,4 @@
+Way to click on a cell and add a new number
+Way to click on a cell and add a new note
+Generate a valid grid - Exact cover / Algorithm X (Knuth / DLX) - clever but conceptually difficult.
+Remove numbers and make sure it is still solveable.  Are there some issues with removing too many numbers or the wrong numbers which leads to unsolvable game?
