@@ -6,3 +6,4 @@ Display of how many of each number are left - stacks?
 Way to switch between numbers and notes
 Logic checking to make sure the board is valid when a number goes in.
 Note removal when a number goes in.
+Click a number on the grid and highlight all of the same numbers that are in the grid.
