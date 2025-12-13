@@ -6,6 +6,12 @@ DEBUG_PRINT = True
 # --- Config ---
 WINDOW_W, WINDOW_H = 640, 720
 FPS = 60
+WINDOW_TEXT = "My game"
+
+# create the display surface object
+# of specific dimension.
+surface = pygame.display.set_mode((WINDOW_W,WINDOW_H))
+pygame.display.set_caption(WINDOW_TEXT)
 
 GRID_SIZE = 9                  # 9x9 cells
 CELL_SIZE = 40                 # pixels per cell
@@ -13,6 +19,7 @@ LINE_THICKNESS_THIN = 2
 LINE_THICKNESS_THICK = 4
 CELL_HIGHLIGHT_WIDTH = 4
 ERROR_CELL = (-1,-1)
+BUTTON_PANEL_GAP_Y = 10
 
 TEXT = "Sudoku"
 FONT_SIZE = 48
@@ -22,6 +29,12 @@ GRID_W = GRID_SIZE * CELL_SIZE
 GRID_H = GRID_SIZE * CELL_SIZE
 TOP_MARGIN = 80
 GAP_TEXT_TO_GRID = 20
+
+#images
+undoImageName = "./Info.jpg"
+undoImageGreyName = "./InfoGrey.jpg"
+undoImage = pygame.image.load(undoImageName).convert()
+undoGreyImage = pygame.image.load(undoImageGreyName).convert()
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
@@ -42,6 +55,29 @@ Y_PADDING = 6
 
 theNumbers = []
 highlightedCells = []
+
+#Button class from the othello game that I made
+class MyClickableImageButton:
+  def __init__(self, x, y, newImage,newGreyImg,newParentSurface,theNewCallback):
+    self.img=newImage
+    self.greyImg = newGreyImg
+    self.rect=self.img.get_rect()
+    self.rect.topleft=(x,y)
+    self.clicked=False
+    self.parentSurfce=newParentSurface
+    self.theCallback = theNewCallback
+
+  def DrawSelf(self):
+    #The button will be grey until the mouse hovers over it!
+    self.parentSurfce.blit(self.greyImg, (self.rect.x, self.rect.y))
+    pos=pygame.mouse.get_pos()
+    if self.rect.collidepoint(pos):
+      if pygame.mouse.get_pressed()[0] and not self.clicked:
+        self.clicked=True
+        self.theCallback()
+      if not pygame.mouse.get_pressed()[0]:
+        self.clicked=False
+        self.parentSurfce.blit(self.img, (self.rect.x, self.rect.y))
 
 #It is not a valid grid in terms of game play.  This is just a test function to allow me to 
 #make sure the numbers line up when it is all printed out.
@@ -129,6 +165,15 @@ def AddAllNumsToHighlightList(someNum):
       if(theNumbers[j][i] == someNum):
         highlightedCells.append((i,j))
 
+#Make some buttons
+
+def UndoButtonCallback():
+  #Testing button callback
+  print("Hello")
+  
+  
+theUndoButton = MyClickableImageButton(grid_x0,grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,undoImage,undoGreyImage,surface,UndoButtonCallback)
+
 running = True
 RandomGrid()
 RemoveRandomOnes()
@@ -149,7 +194,7 @@ while running:
             highlightedCells = []
         else:
           highlightedCells = []
-        
+          
   # Background
   screen.fill(WHITE)
 
@@ -159,6 +204,8 @@ while running:
   DrawGrid()
   DrawNumbers()
   HighlightAllCellsNeeded()
+  
+  theUndoButton.DrawSelf()
 
   pygame.display.flip()
   clock.tick(FPS)
