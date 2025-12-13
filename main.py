@@ -12,6 +12,7 @@ CELL_SIZE = 40                 # pixels per cell
 LINE_THICKNESS_THIN = 2
 LINE_THICKNESS_THICK = 4
 CELL_HIGHLIGHT_WIDTH = 4
+ERROR_CELL = (-1,-1)
 
 TEXT = "Sudoku"
 FONT_SIZE = 48
@@ -60,7 +61,6 @@ def RemoveRandomOnes():
 def PrintGrid():
   for i in range(GRID_SIZE):
     print(theNumbers[i])
-  
 
 def DrawGrid():
   # Grid lines: 9x9 cells -> 10 lines each direction
@@ -91,15 +91,21 @@ def WhatCellWasClicked(x,y):
   
   #It can't be more than the GRID SIZE - 1
   if(col<0):
-    col = 0
+    return ERROR_CELL
   if(col>=GRID_SIZE):
-    col = GRID_SIZE-1
+    return ERROR_CELL
   if(row<0):
-    row = 0
+    return ERROR_CELL
   if(row>=GRID_SIZE):
-    row = GRID_SIZE-1
+    return ERROR_CELL
     
   return (col,row)
+
+def FindNumberInCell(aCell):
+  col = aCell[0]
+  row = aCell[1]
+  
+  return theNumbers[row][col]
 
 def HighlightCell(aCell):
   #Draw a box outline the correct size in a particular cell
@@ -114,6 +120,14 @@ def HighlightCell(aCell):
 def HighlightAllCellsNeeded():
   for cell in highlightedCells:
     HighlightCell(cell)
+    
+def AddAllNumsToHighlightList(someNum):
+  global highlightedCells
+  highlightedCells = []
+  for j in range(GRID_SIZE):
+    for i in range(GRID_SIZE):
+      if(theNumbers[j][i] == someNum):
+        highlightedCells.append((i,j))
 
 running = True
 RandomGrid()
@@ -127,9 +141,15 @@ while running:
       if event.button == 1:
         click_x, click_y = event.pos
         someCell = WhatCellWasClicked(click_x,click_y)
-        highlightedCells.append(someCell)
-        print(someCell)
-
+        if(someCell != ERROR_CELL):
+          theNumClicked = FindNumberInCell(someCell)
+          if(theNumClicked != ""):
+            AddAllNumsToHighlightList(theNumClicked)
+          else:
+            highlightedCells = []
+        else:
+          highlightedCells = []
+        
   # Background
   screen.fill(WHITE)
 
