@@ -11,6 +11,7 @@ GRID_SIZE = 9                  # 9x9 cells
 CELL_SIZE = 40                 # pixels per cell
 LINE_THICKNESS_THIN = 2
 LINE_THICKNESS_THICK = 4
+CELL_HIGHLIGHT_WIDTH = 4
 
 TEXT = "Sudoku"
 FONT_SIZE = 48
@@ -39,6 +40,7 @@ BLACK = (0, 0, 0)
 Y_PADDING = 6
 
 theNumbers = []
+highlightedCells = []
 
 #It is not a valid grid in terms of game play.  This is just a test function to allow me to 
 #make sure the numbers line up when it is all printed out.
@@ -97,13 +99,21 @@ def WhatCellWasClicked(x,y):
   if(row>=GRID_SIZE):
     row = GRID_SIZE-1
     
-  return col,row
+  return (col,row)
 
-def HighlightCell(col,row):
+def HighlightCell(aCell):
   #Draw a box outline the correct size in a particular cell
-  rect = pygame.Rect(100, 100, CELL_SIZE, CELL_SIZE)
-  pygame.draw.rect(screen, GREEN, rect, 3)
-  #print(col,row)
+  smallOffset = 2
+  col = aCell[0]
+  row = aCell[1]
+  x = grid_x0 + col*CELL_SIZE + smallOffset
+  y = grid_y0 + row*CELL_SIZE + smallOffset
+  rect = pygame.Rect(x, y, CELL_SIZE-smallOffset, CELL_SIZE-smallOffset)
+  pygame.draw.rect(screen, GREEN, rect, CELL_HIGHLIGHT_WIDTH)
+
+def HighlightAllCellsNeeded():
+  for cell in highlightedCells:
+    HighlightCell(cell)
 
 running = True
 RandomGrid()
@@ -116,11 +126,10 @@ while running:
     if event.type == pygame.MOUSEBUTTONDOWN:
       if event.button == 1:
         click_x, click_y = event.pos
-        someCol,someRow = WhatCellWasClicked(click_x,click_y)
-        HighlightCell(someCol,someRow)
+        someCell = WhatCellWasClicked(click_x,click_y)
+        highlightedCells.append(someCell)
+        print(someCell)
 
-
-  
   # Background
   screen.fill(WHITE)
 
@@ -129,12 +138,8 @@ while running:
 
   DrawGrid()
   DrawNumbers()
-  
-  #testing
-  rect = pygame.Rect(100, 100, CELL_SIZE, CELL_SIZE)
-  pygame.draw.rect(screen, GREEN, rect, 3)
+  HighlightAllCellsNeeded()
 
-  
   pygame.display.flip()
   clock.tick(FPS)
 
