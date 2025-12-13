@@ -1,6 +1,8 @@
 import pygame,random
 import sys
 
+DEBUG_PRINT = True
+
 # --- Config ---
 WINDOW_W, WINDOW_H = 640, 720
 FPS = 60
@@ -31,12 +33,12 @@ text_rect = text_surf.get_rect(center=(WINDOW_W // 2, TOP_MARGIN + text_surf.get
 grid_x0 = (WINDOW_W - GRID_W) // 2
 grid_y0 = text_rect.bottom + GAP_TEXT_TO_GRID
 
+GREEN = (0, 255, 0)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 Y_PADDING = 6
 
 theNumbers = []
-
 
 #It is not a valid grid in terms of game play.  This is just a test function to allow me to 
 #make sure the numbers line up when it is all printed out.
@@ -64,7 +66,6 @@ def DrawGrid():
     x = grid_x0 + i * CELL_SIZE
     y = grid_y0 + i * CELL_SIZE
     
-    
     #The sudoku grid has some lines thicker than others!
     lineThickness = LINE_THICKNESS_THIN
     if(i % 3 == 0):
@@ -81,18 +82,45 @@ def DrawNumbers():
       number_surf = font.render(str(theNumbers[j][i]), True, (0, 0, 0))
       number_rect = number_surf.get_rect(center=(grid_x0 + CELL_SIZE//2 + i*CELL_SIZE, grid_y0 + Y_PADDING  + j*CELL_SIZE + number_surf.get_height() // 2))
       screen.blit(number_surf, number_rect)
-    
+
+def WhatCellWasClicked(x,y):
+  col = (x-grid_x0)//CELL_SIZE
+  row = (y-grid_y0)//CELL_SIZE
   
+  #It can't be more than the GRID SIZE - 1
+  if(col<0):
+    col = 0
+  if(col>=GRID_SIZE):
+    col = GRID_SIZE-1
+  if(row<0):
+    row = 0
+  if(row>=GRID_SIZE):
+    row = GRID_SIZE-1
+    
+  return col,row
+
+def HighlightCell(col,row):
+  #Draw a box outline the correct size in a particular cell
+  rect = pygame.Rect(100, 100, CELL_SIZE, CELL_SIZE)
+  pygame.draw.rect(screen, GREEN, rect, 3)
+  #print(col,row)
 
 running = True
 RandomGrid()
 RemoveRandomOnes()
-PrintGrid()
+#PrintGrid()
 while running:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       running = False
+    if event.type == pygame.MOUSEBUTTONDOWN:
+      if event.button == 1:
+        click_x, click_y = event.pos
+        someCol,someRow = WhatCellWasClicked(click_x,click_y)
+        HighlightCell(someCol,someRow)
 
+
+  
   # Background
   screen.fill(WHITE)
 
@@ -101,6 +129,11 @@ while running:
 
   DrawGrid()
   DrawNumbers()
+  
+  #testing
+  rect = pygame.Rect(100, 100, CELL_SIZE, CELL_SIZE)
+  pygame.draw.rect(screen, GREEN, rect, 3)
+
   
   pygame.display.flip()
   clock.tick(FPS)
