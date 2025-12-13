@@ -20,6 +20,7 @@ LINE_THICKNESS_THICK = 4
 CELL_HIGHLIGHT_WIDTH = 4
 ERROR_CELL = (-1,-1)
 BUTTON_PANEL_GAP_Y = 10
+NUM_BUTTON_X_GAP = 3
 
 TEXT = "Sudoku"
 FONT_SIZE = 48
@@ -31,10 +32,16 @@ TOP_MARGIN = 80
 GAP_TEXT_TO_GRID = 20
 
 #images
-undoImageName = "./Info.jpg"
-undoImageGreyName = "./InfoGrey.jpg"
-undoImage = pygame.image.load(undoImageName).convert()
-undoGreyImage = pygame.image.load(undoImageGreyName).convert()
+infoImageName = "./Info.jpg"
+infoImageGreyName = "./InfoGrey.jpg"
+infoImage = pygame.image.load(infoImageName).convert()
+infoGreyImage = pygame.image.load(infoImageGreyName).convert()
+oneImageName = "./1.jpg"
+oneImageGreyName = "./1Grey.jpg"
+oneImage = pygame.image.load(oneImageName).convert()
+oneGreyImage = pygame.image.load(oneImageGreyName).convert()
+
+
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
@@ -78,6 +85,46 @@ class MyClickableImageButton:
       if not pygame.mouse.get_pressed()[0]:
         self.clicked=False
         self.parentSurfce.blit(self.img, (self.rect.x, self.rect.y))
+        
+class MyToggleImageButton:
+  def __init__(self, x, y, newImage,newGreyImg,newParentSurface,theNewCallback):
+    self.img=newImage
+    self.greyImg = newGreyImg
+    self.rect=self.img.get_rect()
+    self.rect.topleft=(x,y)
+    self.grey=True
+    self.parentSurfce=newParentSurface
+    self.theCallback = theNewCallback
+    self.currentImg = self.greyImg
+    self.was_down = False
+    self.is_pressed = False
+
+  def DrawSelf(self):
+    #The button toggle between the grey and black versions!
+    
+    pos = pygame.mouse.get_pos()
+    mouse_down = pygame.mouse.get_pressed()[0]
+    hover = self.rect.collidepoint(pos)
+
+    if mouse_down and hover and not self.was_down:
+      self.is_pressed = True
+
+    if (not mouse_down) and self.was_down:
+      if self.is_pressed and hover:
+        
+        if(self.grey == True):
+          self.grey = False
+          self.currentImg = self.img
+        else:
+          self.grey = True
+          self.currentImg = self.greyImg
+          
+        self.theCallback(self.grey)
+        
+      self.is_pressed = False
+
+    self.was_down = mouse_down
+    self.parentSurfce.blit(self.currentImg, (self.rect.x, self.rect.y))
 
 #It is not a valid grid in terms of game play.  This is just a test function to allow me to 
 #make sure the numbers line up when it is all printed out.
@@ -167,12 +214,16 @@ def AddAllNumsToHighlightList(someNum):
 
 #Make some buttons
 
-def UndoButtonCallback():
+def InfoButtonCallback():
   #Testing button callback
   print("Hello")
+
+def OneButtonCallback(isItGrey):
+  print("One button")
+  print(isItGrey)
   
-  
-theUndoButton = MyClickableImageButton(grid_x0,grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,undoImage,undoGreyImage,surface,UndoButtonCallback)
+theInfoButton = MyClickableImageButton(grid_x0,grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,infoImage,infoGreyImage,surface,InfoButtonCallback)
+theOneButton = MyToggleImageButton(grid_x0+1*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,oneImage,oneGreyImage,surface,OneButtonCallback)
 
 running = True
 RandomGrid()
@@ -195,6 +246,7 @@ while running:
         else:
           highlightedCells = []
           
+        
   # Background
   screen.fill(WHITE)
 
@@ -205,7 +257,8 @@ while running:
   DrawNumbers()
   HighlightAllCellsNeeded()
   
-  theUndoButton.DrawSelf()
+  theInfoButton.DrawSelf()
+  theOneButton.DrawSelf()
 
   pygame.display.flip()
   clock.tick(FPS)
