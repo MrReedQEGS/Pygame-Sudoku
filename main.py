@@ -31,6 +31,9 @@ GRID_H = GRID_SIZE * CELL_SIZE
 TOP_MARGIN = 80
 GAP_TEXT_TO_GRID = 20
 
+editMode = False
+numGoingIntoGrid = ""
+
 #images
 infoImageName = "./Info.jpg"
 infoImageGreyName = "./InfoGrey.jpg"
@@ -40,8 +43,14 @@ oneImageName = "./1.jpg"
 oneImageGreyName = "./1Grey.jpg"
 oneImage = pygame.image.load(oneImageName).convert()
 oneGreyImage = pygame.image.load(oneImageGreyName).convert()
-
-
+twoImageName = "./2.jpg"
+twoImageGreyName = "./2Grey.jpg"
+twoImage = pygame.image.load(twoImageName).convert()
+twoGreyImage = pygame.image.load(twoImageGreyName).convert()
+threeImageName = "./3.jpg"
+threeImageGreyName = "./3Grey.jpg"
+threeImage = pygame.image.load(threeImageName).convert()
+threeGreyImage = pygame.image.load(threeImageGreyName).convert()
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
@@ -219,11 +228,69 @@ def InfoButtonCallback():
   print("Hello")
 
 def OneButtonCallback(isItGrey):
+  global editMode,numGoingIntoGrid
+  
   print("One button")
   print(isItGrey)
   
+  if(isItGrey == False):
+    #We are enabling edit mode to allow this number to go into the grid
+    editMode = True
+    numGoingIntoGrid = "1"
+  else:
+    editMode = False
+    numGoingIntoGrid = ""
+    
+  
+  #Reset the other buttons - only one can be on
+  theTwoButton.grey=True
+  theTwoButton.currentImg = theTwoButton.greyImg
+  theThreeButton.grey=True
+  theThreeButton.currentImg = theThreeButton.greyImg
+
+def TwoButtonCallback(isItGrey):
+  global editMode,numGoingIntoGrid
+  print("Two button")
+  print(isItGrey)
+  
+  if(isItGrey == False):
+    #We are enabling edit mode to allow this number to go into the grid
+    editMode = True
+    numGoingIntoGrid = "2"
+  else:
+    editMode = False
+    numGoingIntoGrid = ""
+  
+  #Reset the other buttons - only one can be on
+  theOneButton.grey=True
+  theOneButton.currentImg = theOneButton.greyImg
+  theThreeButton.grey=True
+  theThreeButton.currentImg = theThreeButton.greyImg
+
+def ThreeButtonCallback(isItGrey):
+  global editMode,numGoingIntoGrid
+  print("Three button")
+  print(isItGrey)
+  
+  if(isItGrey == False):
+    #We are enabling edit mode to allow this number to go into the grid
+    editMode = True
+    numGoingIntoGrid = "3"
+  else:
+    editMode = False
+    numGoingIntoGrid = ""
+  
+  #Reset the other buttons - only one can be on
+  theOneButton.grey=True
+  theOneButton.currentImg = theOneButton.greyImg
+  theTwoButton.grey=True
+  theTwoButton.currentImg = theTwoButton.greyImg
+  
 theInfoButton = MyClickableImageButton(grid_x0,grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,infoImage,infoGreyImage,surface,InfoButtonCallback)
 theOneButton = MyToggleImageButton(grid_x0+1*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,oneImage,oneGreyImage,surface,OneButtonCallback)
+theTwoButton = MyToggleImageButton(grid_x0+2*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,twoImage,twoGreyImage,surface,TwoButtonCallback)
+theThreeButton = MyToggleImageButton(grid_x0+3*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,threeImage,threeGreyImage,surface,ThreeButtonCallback)
+
 
 running = True
 RandomGrid()
@@ -243,6 +310,11 @@ while running:
             AddAllNumsToHighlightList(theNumClicked)
           else:
             highlightedCells = []
+            #We might be in edit mode - so put a number into this cell??
+            if(editMode == True):
+              col = someCell[0]
+              row = someCell[1]
+              theNumbers[row][col] = numGoingIntoGrid
         else:
           highlightedCells = []
           
@@ -259,6 +331,8 @@ while running:
   
   theInfoButton.DrawSelf()
   theOneButton.DrawSelf()
+  theTwoButton.DrawSelf()
+  theThreeButton.DrawSelf()
 
   pygame.display.flip()
   clock.tick(FPS)
