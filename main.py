@@ -646,6 +646,20 @@ def NineButtonCallback(isItGrey):
   if(numGoingIntoGrid != "0"):
      AddAllNumsToHighlightList(numGoingIntoGrid)
 
+def DrawMouseNumberIfNeeded():
+    if(editMode == True):
+        mouse_pos = pygame.mouse.get_pos()
+
+        # draw a number that follows the mouse
+        #posIWant = (mouse_pos[0]-10,mouse_pos[1]+10)
+              
+        x = int(numGoingIntoGrid)-1
+        colour = COLORS[x]
+        number_surf = font.render(str(numGoingIntoGrid), True, colour)
+        number_rect = number_surf.get_rect(center=mouse_pos)
+        screen.blit(number_surf, number_rect)
+
+
 buttonPanelOffset = -45 
 theInfoButton = MyClickableImageButton(buttonPanelOffset+grid_x0,grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,infoImage,infoGreyImage,surface,InfoButtonCallback)
 theOneButton = MyToggleImageButton(buttonPanelOffset+grid_x0+1*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[0],numberGreyButtons[0],surface,OneButtonCallback)
@@ -717,18 +731,8 @@ while running:
   theEightButton.DrawSelf()
   theNineButton.DrawSelf()
 
-  if(editMode == True):
-    mouse_pos = pygame.mouse.get_pos()
-
-    # draw a number that follows the mouse
-    #posIWant = (mouse_pos[0]-10,mouse_pos[1]+10)
-          
-    x = int(numGoingIntoGrid)-1
-    colour = COLORS[x]
-    number_surf = font.render(str(numGoingIntoGrid), True, colour)
-    number_rect = number_surf.get_rect(center=mouse_pos)
-    screen.blit(number_surf, number_rect)
-
+  DrawMouseNumberIfNeeded()
+  
   pygame.display.flip()
   clock.tick(FPS)
 
