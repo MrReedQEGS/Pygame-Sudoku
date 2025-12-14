@@ -1,3 +1,5 @@
+#Prototype for a sudoku game
+#Mr Reed - Dec 2025
 import pygame,random
 import sys
 
