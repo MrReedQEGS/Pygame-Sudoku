@@ -170,7 +170,7 @@ def RandomGrid():
   for i in range(GRID_SIZE):
     newRow = []
     for j in range(GRID_SIZE):
-      newRow.append(random.randint(1,9))
+      newRow.append(str(random.randint(1,9)))
     theNumbers.append(newRow)
   RemoveRandomNumbersFromGrid()
   
@@ -314,6 +314,8 @@ def OneButtonCallback(isItGrey):
   theTwoButton.currentImg = theTwoButton.greyImg
   theThreeButton.grey=True
   theThreeButton.currentImg = theThreeButton.greyImg
+  theFourButton.grey=True
+  theFourButton.currentImg = theFourButton.greyImg
 
 def TwoButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
@@ -334,7 +336,7 @@ def TwoButtonCallback(isItGrey):
   theThreeButton.grey=True
   theThreeButton.currentImg = theThreeButton.greyImg
   theFourButton.grey=True
-  theFourButton.currentImg = theThreeButton.greyImg
+  theFourButton.currentImg = theFourButton.greyImg
 
 def ThreeButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
@@ -355,7 +357,7 @@ def ThreeButtonCallback(isItGrey):
   theTwoButton.grey=True
   theTwoButton.currentImg = theTwoButton.greyImg
   theFourButton.grey=True
-  theFourButton.currentImg = theThreeButton.greyImg
+  theFourButton.currentImg = theFourButton.greyImg
   
 def FourButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
@@ -417,6 +419,7 @@ while running:
             #We might be in edit mode - so put a number into this cell??
             if(editMode == True):
               AddNumberToACell(someCell)
+              highlightNum = ""
         else:
           highlightedCells = []
           
