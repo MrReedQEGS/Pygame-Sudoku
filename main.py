@@ -36,6 +36,7 @@ EMPTY_NOTES = ["","","","","","","","",""]
 
 editMode = False
 numGoingIntoGrid = ""
+highlightNum = ""
 
 #images
 infoImageName = "./Info.jpg"
@@ -371,7 +372,15 @@ while running:
         if(someCell != ERROR_CELL):
           theNumClicked = FindNumberInCell(someCell)
           if(theNumClicked != ""):
-            AddAllNumsToHighlightList(theNumClicked)
+            
+            #Make highlights toggle on and off for repeated press in same cell
+            if(highlightNum != theNumClicked):
+              highlightNum = theNumClicked
+              AddAllNumsToHighlightList(theNumClicked)
+            else:
+              highlightNum = ""
+              highlightedCells = []
+              
           else:
             highlightedCells = []
             #We might be in edit mode - so put a number into this cell??
