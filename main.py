@@ -301,9 +301,6 @@ def InfoButtonCallback():
 def OneButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
   
-  print("One button")
-  print(isItGrey)
-  
   if(isItGrey == False):
     #We are enabling edit mode to allow this number to go into the grid
     editMode = True
@@ -319,11 +316,19 @@ def OneButtonCallback(isItGrey):
   theThreeButton.currentImg = theThreeButton.greyImg
   theFourButton.grey=True
   theFourButton.currentImg = theFourButton.greyImg
+  theFiveButton.grey=True
+  theFiveButton.currentImg = theFiveButton.greyImg
+  theSixButton.grey=True
+  theSixButton.currentImg = theSixButton.greyImg
+  theSevenButton.grey=True
+  theSevenButton.currentImg = theSevenButton.greyImg
+  theEightButton.grey=True
+  theEightButton.currentImg = theEightButton.greyImg
+  theNineButton.grey=True
+  theNineButton.currentImg = theNineButton.greyImg
 
 def TwoButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
-  print("Two button")
-  print(isItGrey)
   
   if(isItGrey == False):
     #We are enabling edit mode to allow this number to go into the grid
@@ -340,11 +345,20 @@ def TwoButtonCallback(isItGrey):
   theThreeButton.currentImg = theThreeButton.greyImg
   theFourButton.grey=True
   theFourButton.currentImg = theFourButton.greyImg
+  theFiveButton.grey=True
+  theFiveButton.currentImg = theFiveButton.greyImg
+  theSixButton.grey=True
+  theSixButton.currentImg = theSixButton.greyImg
+  theSevenButton.grey=True
+  theSevenButton.currentImg = theSevenButton.greyImg
+  theEightButton.grey=True
+  theEightButton.currentImg = theEightButton.greyImg
+  theNineButton.grey=True
+  theNineButton.currentImg = theNineButton.greyImg
+  
 
 def ThreeButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
-  print("Three button")
-  print(isItGrey)
   
   if(isItGrey == False):
     #We are enabling edit mode to allow this number to go into the grid
@@ -361,11 +375,19 @@ def ThreeButtonCallback(isItGrey):
   theTwoButton.currentImg = theTwoButton.greyImg
   theFourButton.grey=True
   theFourButton.currentImg = theFourButton.greyImg
+  theFiveButton.grey=True
+  theFiveButton.currentImg = theFiveButton.greyImg
+  theSixButton.grey=True
+  theSixButton.currentImg = theSixButton.greyImg
+  theSevenButton.grey=True
+  theSevenButton.currentImg = theSevenButton.greyImg
+  theEightButton.grey=True
+  theEightButton.currentImg = theEightButton.greyImg
+  theNineButton.grey=True
+  theNineButton.currentImg = theNineButton.greyImg
   
 def FourButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
-  print("Four button")
-  print(isItGrey)
   
   if(isItGrey == False):
     #We are enabling edit mode to allow this number to go into the grid
@@ -382,21 +404,162 @@ def FourButtonCallback(isItGrey):
   theTwoButton.currentImg = theTwoButton.greyImg
   theThreeButton.grey=True
   theThreeButton.currentImg = theThreeButton.greyImg
+  theFiveButton.grey=True
+  theFiveButton.currentImg = theFiveButton.greyImg
+  theSixButton.grey=True
+  theSixButton.currentImg = theSixButton.greyImg
+  theSevenButton.grey=True
+  theSevenButton.currentImg = theSevenButton.greyImg
+  theEightButton.grey=True
+  theEightButton.currentImg = theEightButton.greyImg
+  theNineButton.grey=True
+  theNineButton.currentImg = theNineButton.greyImg
 
 def FiveButtonCallback(isItGrey):
-  pass
+  global editMode,numGoingIntoGrid
+  
+  if(isItGrey == False):
+    #We are enabling edit mode to allow this number to go into the grid
+    editMode = True
+    numGoingIntoGrid = "5"
+  else:
+    editMode = False
+    numGoingIntoGrid = ""
+  
+  #Reset the other buttons - only one can be on
+  theOneButton.grey=True
+  theOneButton.currentImg = theOneButton.greyImg
+  theTwoButton.grey=True
+  theTwoButton.currentImg = theTwoButton.greyImg
+  theThreeButton.grey=True
+  theThreeButton.currentImg = theThreeButton.greyImg
+  theFourButton.grey=True
+  theFourButton.currentImg = theFourButton.greyImg
+  theSixButton.grey=True
+  theSixButton.currentImg = theSixButton.greyImg
+  theSevenButton.grey=True
+  theSevenButton.currentImg = theSevenButton.greyImg
+  theEightButton.grey=True
+  theEightButton.currentImg = theEightButton.greyImg
+  theNineButton.grey=True
+  theNineButton.currentImg = theNineButton.greyImg
 
 def SixButtonCallback(isItGrey):
-  pass
+  global editMode,numGoingIntoGrid
+  
+  if(isItGrey == False):
+    #We are enabling edit mode to allow this number to go into the grid
+    editMode = True
+    numGoingIntoGrid = "6"
+  else:
+    editMode = False
+    numGoingIntoGrid = ""
+  
+  #Reset the other buttons - only one can be on
+  theOneButton.grey=True
+  theOneButton.currentImg = theOneButton.greyImg
+  theTwoButton.grey=True
+  theTwoButton.currentImg = theTwoButton.greyImg
+  theThreeButton.grey=True
+  theThreeButton.currentImg = theThreeButton.greyImg
+  theFourButton.grey=True
+  theFourButton.currentImg = theFourButton.greyImg
+  theFiveButton.grey=True
+  theFiveButton.currentImg = theFiveButton.greyImg
+  theSevenButton.grey=True
+  theSevenButton.currentImg = theSevenButton.greyImg
+  theEightButton.grey=True
+  theEightButton.currentImg = theEightButton.greyImg
+  theNineButton.grey=True
+  theNineButton.currentImg = theNineButton.greyImg
 
 def SevenButtonCallback(isItGrey):
-  pass
+  global editMode,numGoingIntoGrid
+  
+  if(isItGrey == False):
+    #We are enabling edit mode to allow this number to go into the grid
+    editMode = True
+    numGoingIntoGrid = "7"
+  else:
+    editMode = False
+    numGoingIntoGrid = ""
+  
+  #Reset the other buttons - only one can be on
+  theOneButton.grey=True
+  theOneButton.currentImg = theOneButton.greyImg
+  theTwoButton.grey=True
+  theTwoButton.currentImg = theTwoButton.greyImg
+  theThreeButton.grey=True
+  theThreeButton.currentImg = theThreeButton.greyImg
+  theFourButton.grey=True
+  theFourButton.currentImg = theFourButton.greyImg
+  theFiveButton.grey=True
+  theFiveButton.currentImg = theFiveButton.greyImg
+  theSixButton.grey=True
+  theSixButton.currentImg = theSixButton.greyImg
+  theEightButton.grey=True
+  theEightButton.currentImg = theEightButton.greyImg
+  theNineButton.grey=True
+  theNineButton.currentImg = theNineButton.greyImg
 
 def EightButtonCallback(isItGrey):
-  pass
+  global editMode,numGoingIntoGrid
+  
+  if(isItGrey == False):
+    #We are enabling edit mode to allow this number to go into the grid
+    editMode = True
+    numGoingIntoGrid = "8"
+  else:
+    editMode = False
+    numGoingIntoGrid = ""
+  
+  #Reset the other buttons - only one can be on
+  theOneButton.grey=True
+  theOneButton.currentImg = theOneButton.greyImg
+  theTwoButton.grey=True
+  theTwoButton.currentImg = theTwoButton.greyImg
+  theThreeButton.grey=True
+  theThreeButton.currentImg = theThreeButton.greyImg
+  theFourButton.grey=True
+  theFourButton.currentImg = theFourButton.greyImg
+  theFiveButton.grey=True
+  theFiveButton.currentImg = theFiveButton.greyImg
+  theSixButton.grey=True
+  theSixButton.currentImg = theSixButton.greyImg
+  theSevenButton.grey=True
+  theSevenButton.currentImg = theSevenButton.greyImg
+  theNineButton.grey=True
+  theNineButton.currentImg = theNineButton.greyImg
+
 
 def NineButtonCallback(isItGrey):
-  pass
+  global editMode,numGoingIntoGrid
+  
+  if(isItGrey == False):
+    #We are enabling edit mode to allow this number to go into the grid
+    editMode = True
+    numGoingIntoGrid = "9"
+  else:
+    editMode = False
+    numGoingIntoGrid = ""
+  
+  #Reset the other buttons - only one can be on
+  theOneButton.grey=True
+  theOneButton.currentImg = theOneButton.greyImg
+  theTwoButton.grey=True
+  theTwoButton.currentImg = theTwoButton.greyImg
+  theThreeButton.grey=True
+  theThreeButton.currentImg = theThreeButton.greyImg
+  theFourButton.grey=True
+  theFourButton.currentImg = theFourButton.greyImg
+  theFiveButton.grey=True
+  theFiveButton.currentImg = theFiveButton.greyImg
+  theSixButton.grey=True
+  theSixButton.currentImg = theSixButton.greyImg
+  theSevenButton.grey=True
+  theSevenButton.currentImg = theSevenButton.greyImg
+  theEightButton.grey=True
+  theEightButton.currentImg = theEightButton.greyImg
 
 buttonPanelOffset = -45 
 theInfoButton = MyClickableImageButton(buttonPanelOffset+grid_x0,grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,infoImage,infoGreyImage,surface,InfoButtonCallback)
