@@ -7,3 +7,4 @@ Way to switch between numbers and notes
 Logic checking to make sure the board is valid when a number goes in.
 Note removal when a number goes in.
 Click a number on the grid and highlight all of the same numbers that are in the grid.
+Put a little number next to the mouse when we are in edit mode so the user knows which number is about to go in.
