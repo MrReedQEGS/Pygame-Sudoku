@@ -29,6 +29,18 @@ TEXT = "Sudoku"
 FONT_SIZE = 48
 NOTE_FONT_SIZE = 19
 
+COLORS = [
+    (0, 60, 120),     # Deep Navy Blue
+    (0, 120, 215),    # Bright Blue
+    (0, 160, 90),     # Green
+    (100, 60, 160),   # Purple
+    (255, 165, 0),    # Orange
+    (0, 180, 180),    # Teal
+    (160, 160, 160),  # Gray
+    (120, 80, 40),    # Brown
+    (240, 220, 70),   # Yellow / Gold
+]
+
 # Layout: grid centered; text centered above it
 GRID_W = GRID_SIZE * CELL_SIZE
 GRID_H = GRID_SIZE * CELL_SIZE
@@ -208,7 +220,11 @@ def DrawGrid():
 def DrawNumbers():
   for j in range(GRID_SIZE):
     for i in range(GRID_SIZE):
-      number_surf = font.render(str(theNumbers[j][i]), True, (0, 0, 0))
+      colour = (0,0,0)
+      if(theNumbers[j][i] != ""):  
+          x = int(theNumbers[j][i])-1
+          colour = COLORS[x]
+      number_surf = font.render(str(theNumbers[j][i]), True, colour)
       number_rect = number_surf.get_rect(center=(grid_x0 + CELL_SIZE//2 + i*CELL_SIZE, grid_y0 + Y_PADDING  + j*CELL_SIZE + number_surf.get_height() // 2))
       screen.blit(number_surf, number_rect)
 
