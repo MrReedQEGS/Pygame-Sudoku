@@ -16,6 +16,8 @@ WINDOW_TEXT = "My game"
 surface = pygame.display.set_mode((WINDOW_W,WINDOW_H))
 pygame.display.set_caption(WINDOW_TEXT)
 
+FILE_NAME = "HardProbSet.csv"
+
 GRID_SIZE = 9                  # 9x9 cells
 CELL_SIZE = 40                 # pixels per cell
 LINE_THICKNESS_THIN = 2
@@ -47,11 +49,11 @@ GRID_H = GRID_SIZE * CELL_SIZE
 TOP_MARGIN = 80
 GAP_TEXT_TO_GRID = 20
 
-EMPTY_NOTES = ["","","","","","","","",""]
+EMPTY_NOTES = ["0","0","0","0","0","0","0","0","0"]
 
 editMode = False
-numGoingIntoGrid = ""
-highlightNum = ""
+numGoingIntoGrid = "0"
+highlightNum = "0"
 
 #images
 infoImage = pygame.image.load("./Info.jpg").convert()
@@ -169,13 +171,25 @@ def RemoveRandomNumbersFromGrid():
   for i in range(30):
     j = random.randint(0,8)
     i = random.randint(0,8)
-    theNumbers[j][i] = ""
+    theNumbers[j][i] = "0"
     randomNotes = [1,2,3,4,5,6,7,8,9]
     
     #Remove some random notes to make it look more realistic
     for x in range(10):
       someNum = random.randint(0,8)
-      randomNotes[someNum]=""
+      randomNotes[someNum]="0"
+    theNotes[i][j] = randomNotes
+    
+def MakeRandomNotes():
+  for i in range(30):
+    j = random.randint(0,8)
+    i = random.randint(0,8)
+    randomNotes = [1,2,3,4,5,6,7,8,9]
+    
+    #Remove some random notes to make it look more realistic
+    for x in range(10):
+      someNum = random.randint(0,8)
+      randomNotes[someNum]="0"
     theNotes[i][j] = randomNotes
     
 #It is not a valid grid in terms of game play.  This is just a test function to allow me to 
@@ -191,11 +205,16 @@ def RandomGrid():
   
 def EmptyGrid():
   for i in range(GRID_SIZE):
-    newRow = []
-    for j in range(GRID_SIZE):
-      newRow.append("")
-    theNumbers.append(newRow)
-  RemoveRandomNumbersFromGrid()
+    emptyRow = ["0","0","0","0","0","0","0","0","0"]
+    theNumbers.append(emptyRow)
+
+def LoadAPuzzleFromCSV():
+  f = open(FILE_NAME,"r")
+  for line in f:
+    print(line)
+    theNumbers = line.strip()
+    break
+  f.close()
 
 def PrintGrid():
   for i in range(GRID_SIZE):
@@ -221,12 +240,12 @@ def DrawNumbers():
   for j in range(GRID_SIZE):
     for i in range(GRID_SIZE):
       colour = (0,0,0)
-      if(theNumbers[j][i] != ""):  
+      if(theNumbers[j][i] != "0"):  
           x = int(theNumbers[j][i])-1
           colour = COLORS[x]
-      number_surf = font.render(str(theNumbers[j][i]), True, colour)
-      number_rect = number_surf.get_rect(center=(grid_x0 + CELL_SIZE//2 + i*CELL_SIZE, grid_y0 + Y_PADDING  + j*CELL_SIZE + number_surf.get_height() // 2))
-      screen.blit(number_surf, number_rect)
+          number_surf = font.render(str(theNumbers[j][i]), True, colour)
+          number_rect = number_surf.get_rect(center=(grid_x0 + CELL_SIZE//2 + i*CELL_SIZE, grid_y0 + Y_PADDING  + j*CELL_SIZE + number_surf.get_height() // 2))
+          screen.blit(number_surf, number_rect)
 
 def WhatCellWasClicked(x,y):
   col = (x-grid_x0)//CELL_SIZE
@@ -284,9 +303,10 @@ def PrintNotesInCell(aCell):
   
   for j in range(3):
     for i in range(3):
-      note_surf = noteFont.render(str(notesForThisCell[i+(j*3)]), True, (255, 0, 0))
-      note_rect = note_surf.get_rect(center=(noteOffsetX + grid_x0 + col*CELL_SIZE + noteGap*i, noteOffsetY + grid_y0 + row*CELL_SIZE + noteRowGap*j))
-      screen.blit(note_surf, note_rect)
+      if(notesForThisCell[i+(j*3)] != "0"):
+        note_surf = noteFont.render(str(notesForThisCell[i+(j*3)]), True, (255, 0, 0))
+        note_rect = note_surf.get_rect(center=(noteOffsetX + grid_x0 + col*CELL_SIZE + noteGap*i, noteOffsetY + grid_y0 + row*CELL_SIZE + noteRowGap*j))
+        screen.blit(note_surf, note_rect)
  
 def PrintAllNotes():
   for j in range(0,GRID_SIZE):
@@ -323,7 +343,7 @@ def OneButtonCallback(isItGrey):
     numGoingIntoGrid = "1"
   else:
     editMode = False
-    numGoingIntoGrid = ""
+    numGoingIntoGrid = "0"
     
   #Reset the other buttons - only one can be on
   theTwoButton.grey=True
@@ -352,7 +372,7 @@ def TwoButtonCallback(isItGrey):
     numGoingIntoGrid = "2"
   else:
     editMode = False
-    numGoingIntoGrid = ""
+    numGoingIntoGrid = "0"
   
   #Reset the other buttons - only one can be on
   theOneButton.grey=True
@@ -382,7 +402,7 @@ def ThreeButtonCallback(isItGrey):
     numGoingIntoGrid = "3"
   else:
     editMode = False
-    numGoingIntoGrid = ""
+    numGoingIntoGrid = "0"
   
   #Reset the other buttons - only one can be on
   theOneButton.grey=True
@@ -411,7 +431,7 @@ def FourButtonCallback(isItGrey):
     numGoingIntoGrid = "4"
   else:
     editMode = False
-    numGoingIntoGrid = ""
+    numGoingIntoGrid = "0"
   
   #Reset the other buttons - only one can be on
   theOneButton.grey=True
@@ -440,7 +460,7 @@ def FiveButtonCallback(isItGrey):
     numGoingIntoGrid = "5"
   else:
     editMode = False
-    numGoingIntoGrid = ""
+    numGoingIntoGrid = "0"
   
   #Reset the other buttons - only one can be on
   theOneButton.grey=True
@@ -469,7 +489,7 @@ def SixButtonCallback(isItGrey):
     numGoingIntoGrid = "6"
   else:
     editMode = False
-    numGoingIntoGrid = ""
+    numGoingIntoGrid = "0"
   
   #Reset the other buttons - only one can be on
   theOneButton.grey=True
@@ -498,7 +518,7 @@ def SevenButtonCallback(isItGrey):
     numGoingIntoGrid = "7"
   else:
     editMode = False
-    numGoingIntoGrid = ""
+    numGoingIntoGrid = "0"
   
   #Reset the other buttons - only one can be on
   theOneButton.grey=True
@@ -527,7 +547,7 @@ def EightButtonCallback(isItGrey):
     numGoingIntoGrid = "8"
   else:
     editMode = False
-    numGoingIntoGrid = ""
+    numGoingIntoGrid = "0"
   
   #Reset the other buttons - only one can be on
   theOneButton.grey=True
@@ -557,7 +577,7 @@ def NineButtonCallback(isItGrey):
     numGoingIntoGrid = "9"
   else:
     editMode = False
-    numGoingIntoGrid = ""
+    numGoingIntoGrid = "0"
   
   #Reset the other buttons - only one can be on
   theOneButton.grey=True
@@ -590,9 +610,11 @@ theEightButton = MyToggleImageButton(buttonPanelOffset+grid_x0+8*+(CELL_SIZE+NUM
 theNineButton = MyToggleImageButton(buttonPanelOffset+grid_x0+9*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[8],numberGreyButtons[8],surface,NineButtonCallback)
 
 running = True
-#EmptyGrid()
 MakeEmptyNotes()
-RandomGrid()
+EmptyGrid()
+MakeRandomNotes()
+#RandomGrid()
+#LoadAPuzzleFromCSV()
 
 #PrintGrid()
 while running:
@@ -605,14 +627,14 @@ while running:
         someCell = WhatCellWasClicked(click_x,click_y)
         if(someCell != ERROR_CELL):
           theNumClicked = FindNumberInCell(someCell)
-          if(theNumClicked != ""):
+          if(theNumClicked != "0"):
             
             #Make highlights toggle on and off for repeated press in same cell
             if(highlightNum != theNumClicked):
               highlightNum = theNumClicked
               AddAllNumsToHighlightList(theNumClicked)
             else:
-              highlightNum = ""
+              highlightNum = "0"
               highlightedCells = []
               
           else:
@@ -620,7 +642,7 @@ while running:
             #We might be in edit mode - so put a number into this cell??
             if(editMode == True):
               AddNumberToACell(someCell)
-              highlightNum = ""
+              highlightNum = "0"
         else:
           highlightedCells = []
           
