@@ -648,6 +648,7 @@ def NineButtonCallback(isItGrey):
 
 def DrawMouseNumberIfNeeded():
     if(editMode == True):
+        pygame.mouse.set_visible(False)
         mouse_pos = pygame.mouse.get_pos()
 
         # draw a number that follows the mouse
@@ -658,6 +659,8 @@ def DrawMouseNumberIfNeeded():
         number_surf = font.render(str(numGoingIntoGrid), True, colour)
         number_rect = number_surf.get_rect(center=mouse_pos)
         screen.blit(number_surf, number_rect)
+    else:
+        pygame.mouse.set_visible(True)
 
 
 buttonPanelOffset = -45 
