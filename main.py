@@ -24,12 +24,15 @@ NUM_BUTTON_X_GAP = 3
 
 TEXT = "Sudoku"
 FONT_SIZE = 48
+NOTE_FONT_SIZE = 19
 
 # Layout: grid centered; text centered above it
 GRID_W = GRID_SIZE * CELL_SIZE
 GRID_H = GRID_SIZE * CELL_SIZE
 TOP_MARGIN = 80
 GAP_TEXT_TO_GRID = 20
+
+EMPTY_NOTES = ["","","","","","","","",""]
 
 editMode = False
 numGoingIntoGrid = ""
@@ -61,6 +64,8 @@ font = pygame.font.SysFont(None, FONT_SIZE)
 text_surf = font.render(TEXT, True, (0, 0, 0))
 text_rect = text_surf.get_rect(center=(WINDOW_W // 2, TOP_MARGIN + text_surf.get_height() // 2))
 
+noteFont = pygame.font.SysFont(None, NOTE_FONT_SIZE)
+
 grid_x0 = (WINDOW_W - GRID_W) // 2
 grid_y0 = text_rect.bottom + GAP_TEXT_TO_GRID
 
@@ -70,6 +75,7 @@ BLACK = (0, 0, 0)
 Y_PADDING = 6
 
 theNumbers = []
+theNotes = []
 highlightedCells = []
 
 #Button class from the othello game that I made
@@ -135,20 +141,41 @@ class MyToggleImageButton:
     self.was_down = mouse_down
     self.parentSurfce.blit(self.currentImg, (self.rect.x, self.rect.y))
 
+
+#Make some notes in each grid cell
+#This is for testing
+def MakeNotes():
+  fullNotes = [1,2,3,4,5,6,7,8,9]
+  for i in range(GRID_SIZE):
+    newRow = []
+    for j in range(GRID_SIZE):
+      newRow.append(fullNotes)
+    theNotes.append(newRow)
+
+def RemoveRandomNumbersFromGrid():
+  for i in range(30):
+    j = random.randint(0,8)
+    i = random.randint(0,8)
+    theNumbers[j][i] = ""
+    
 #It is not a valid grid in terms of game play.  This is just a test function to allow me to 
 #make sure the numbers line up when it is all printed out.
+#This is for testing
 def RandomGrid():
   for i in range(GRID_SIZE):
     newRow = []
     for j in range(GRID_SIZE):
       newRow.append(random.randint(1,9))
     theNumbers.append(newRow)
-
-def RemoveRandomOnes():
-  for i in range(30):
-    j = random.randint(0,8)
-    i = random.randint(0,8)
-    theNumbers[j][i] = ""
+  RemoveRandomNumbersFromGrid()
+  
+def EmptyGrid():
+  for i in range(GRID_SIZE):
+    newRow = []
+    for j in range(GRID_SIZE):
+      newRow.append("")
+    theNumbers.append(newRow)
+  RemoveRandomNumbersFromGrid()
 
 def PrintGrid():
   for i in range(GRID_SIZE):
@@ -221,6 +248,42 @@ def AddAllNumsToHighlightList(someNum):
       if(theNumbers[j][i] == someNum):
         highlightedCells.append((i,j))
 
+def PrintNotesInCell(aCell):
+  #Draw a box outline the correct size in a particular cell
+  noteOffsetX = 8
+  noteOffsetY = 9
+  noteRowGap = 12
+  noteGap = 12
+  col = aCell[0]
+  row = aCell[1]
+  notesForThisCell = theNotes[col][row]
+  
+  for j in range(3):
+    for i in range(3):
+      note_surf = noteFont.render(str(notesForThisCell[i+(j*3)]), True, (255, 0, 0))
+      note_rect = note_surf.get_rect(center=(noteOffsetX + grid_x0 + col*CELL_SIZE + noteGap*i, noteOffsetY + grid_y0 + row*CELL_SIZE + noteRowGap*j))
+      screen.blit(note_surf, note_rect)
+ 
+def PrintAllNotes():
+  for j in range(0,GRID_SIZE):
+    for i in range(0,GRID_SIZE):
+      PrintNotesInCell((j,i))
+
+def RemoveNotesFromACell(theCell):
+  col = theCell[0]
+  row = theCell[1]
+  theNotes[col][row] = EMPTY_NOTES
+  
+
+def AddNumberToACell(theCell):
+  col = theCell[0]
+  row = theCell[1]
+  theNumbers[row][col] = numGoingIntoGrid
+  
+  #Notes must be removed from a cell when a number goes in!
+  RemoveNotesFromACell(theCell)
+  
+  
 #Make some buttons
 
 def InfoButtonCallback():
@@ -241,7 +304,6 @@ def OneButtonCallback(isItGrey):
     editMode = False
     numGoingIntoGrid = ""
     
-  
   #Reset the other buttons - only one can be on
   theTwoButton.grey=True
   theTwoButton.currentImg = theTwoButton.greyImg
@@ -293,8 +355,10 @@ theThreeButton = MyToggleImageButton(grid_x0+3*+(CELL_SIZE+NUM_BUTTON_X_GAP),gri
 
 
 running = True
-RandomGrid()
-RemoveRandomOnes()
+EmptyGrid()
+MakeNotes()
+#RandomGrid()
+
 #PrintGrid()
 while running:
   for event in pygame.event.get():
@@ -312,13 +376,10 @@ while running:
             highlightedCells = []
             #We might be in edit mode - so put a number into this cell??
             if(editMode == True):
-              col = someCell[0]
-              row = someCell[1]
-              theNumbers[row][col] = numGoingIntoGrid
+              AddNumberToACell(someCell)
         else:
           highlightedCells = []
           
-        
   # Background
   screen.fill(WHITE)
 
@@ -328,6 +389,7 @@ while running:
   DrawGrid()
   DrawNumbers()
   HighlightAllCellsNeeded()
+  PrintAllNotes()
   
   theInfoButton.DrawSelf()
   theOneButton.DrawSelf()
