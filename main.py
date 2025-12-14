@@ -20,7 +20,7 @@ LINE_THICKNESS_THICK = 4
 CELL_HIGHLIGHT_WIDTH = 4
 ERROR_CELL = (-1,-1)
 BUTTON_PANEL_GAP_Y = 10
-NUM_BUTTON_X_GAP = 3
+NUM_BUTTON_X_GAP = 2
 
 TEXT = "Sudoku"
 FONT_SIZE = 48
@@ -379,19 +379,38 @@ def FourButtonCallback(isItGrey):
   theTwoButton.currentImg = theTwoButton.greyImg
   theThreeButton.grey=True
   theThreeButton.currentImg = theThreeButton.greyImg
-  
-theInfoButton = MyClickableImageButton(grid_x0,grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,infoImage,infoGreyImage,surface,InfoButtonCallback)
-theOneButton = MyToggleImageButton(grid_x0+1*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[0],numberGreyButtons[0],surface,OneButtonCallback)
-theTwoButton = MyToggleImageButton(grid_x0+2*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[1],numberGreyButtons[1],surface,TwoButtonCallback)
-theThreeButton = MyToggleImageButton(grid_x0+3*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[2],numberGreyButtons[2],surface,ThreeButtonCallback)
-theFourButton = MyToggleImageButton(grid_x0+4*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[3],numberGreyButtons[3],surface,FourButtonCallback)
 
+def FiveButtonCallback(isItGrey):
+  pass
+
+def SixButtonCallback(isItGrey):
+  pass
+
+def SevenButtonCallback(isItGrey):
+  pass
+
+def EightButtonCallback(isItGrey):
+  pass
+
+def NineButtonCallback(isItGrey):
+  pass
+
+buttonPanelOffset = -45 
+theInfoButton = MyClickableImageButton(buttonPanelOffset+grid_x0,grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,infoImage,infoGreyImage,surface,InfoButtonCallback)
+theOneButton = MyToggleImageButton(buttonPanelOffset+grid_x0+1*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[0],numberGreyButtons[0],surface,OneButtonCallback)
+theTwoButton = MyToggleImageButton(buttonPanelOffset+grid_x0+2*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[1],numberGreyButtons[1],surface,TwoButtonCallback)
+theThreeButton = MyToggleImageButton(buttonPanelOffset+grid_x0+3*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[2],numberGreyButtons[2],surface,ThreeButtonCallback)
+theFourButton = MyToggleImageButton(buttonPanelOffset+grid_x0+4*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[3],numberGreyButtons[3],surface,FourButtonCallback)
+theFiveButton = MyToggleImageButton(buttonPanelOffset+grid_x0+5*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[4],numberGreyButtons[4],surface,FiveButtonCallback)
+theSixButton = MyToggleImageButton(buttonPanelOffset+grid_x0+6*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[5],numberGreyButtons[5],surface,SixButtonCallback)
+theSevenButton = MyToggleImageButton(buttonPanelOffset+grid_x0+7*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[6],numberGreyButtons[6],surface,SevenButtonCallback)
+theEightButton = MyToggleImageButton(buttonPanelOffset+grid_x0+8*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[7],numberGreyButtons[7],surface,EightButtonCallback)
+theNineButton = MyToggleImageButton(buttonPanelOffset+grid_x0+9*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[8],numberGreyButtons[8],surface,NineButtonCallback)
 
 running = True
 #EmptyGrid()
 MakeEmptyNotes()
 RandomGrid()
-
 
 #PrintGrid()
 while running:
@@ -439,6 +458,12 @@ while running:
   theTwoButton.DrawSelf()
   theThreeButton.DrawSelf()
   theFourButton.DrawSelf()
+  theFiveButton.DrawSelf()
+  theSixButton.DrawSelf()
+  theSevenButton.DrawSelf()
+  theEightButton.DrawSelf()
+  theNineButton.DrawSelf()
+
 
   pygame.display.flip()
   clock.tick(FPS)
