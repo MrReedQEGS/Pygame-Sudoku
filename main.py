@@ -209,13 +209,23 @@ def EmptyGrid():
     theNumbers.append(emptyRow)
 
 def LoadAPuzzleFromCSV():
-  f = open(FILE_NAME,"r")
-  for line in f:
-    print(line)
-    theNumbers = line.strip()
-    break
-  f.close()
-
+  #global theNumbers
+  #f = open(FILE_NAME,"r")
+  #for line in f:
+  #  print(line.strip())
+  #  break
+  #f.close()
+  
+  theNumbers = [["0", "0", "0", "0", "0", "2", "0", "0", "0"],
+                ["0", "0", "1", "7", "3", "0", "0", "5", "2"],
+                ["5", "0", "0", "0", "9", "4", "7", "0", "3"],
+                ["6", "2", "4", "3", "0", "0", "0", "0", "0"],
+                ["8", "0", "0", "0", "0", "0", "0", "3", "0"],
+                ["9", "5", "0", "0", "0", "0", "6", "0", "0"],
+                ["2", "0", "8", "0", "0", "0", "0", "0", "5"],
+                ["0", "0", "6", "4", "0", "0", "0", "2", "7"],
+                ["0", "4", "0", "0", "0", "7", "8", "6", "0"]]
+    
 def PrintGrid():
   for i in range(GRID_SIZE):
     print(theNumbers[i])
@@ -240,8 +250,9 @@ def DrawNumbers():
   for j in range(GRID_SIZE):
     for i in range(GRID_SIZE):
       colour = (0,0,0)
-      if(theNumbers[j][i] != "0"):  
-          x = int(theNumbers[j][i])-1
+      if(theNumbers[j][i] != "0"):
+          currentNum = theNumbers[j][i]
+          x = int(currentNum)-1
           colour = COLORS[x]
           number_surf = font.render(str(theNumbers[j][i]), True, colour)
           number_rect = number_surf.get_rect(center=(grid_x0 + CELL_SIZE//2 + i*CELL_SIZE, grid_y0 + Y_PADDING  + j*CELL_SIZE + number_surf.get_height() // 2))
@@ -612,9 +623,11 @@ theNineButton = MyToggleImageButton(buttonPanelOffset+grid_x0+9*+(CELL_SIZE+NUM_
 running = True
 MakeEmptyNotes()
 EmptyGrid()
-MakeRandomNotes()
+#MakeRandomNotes()
 #RandomGrid()
-#LoadAPuzzleFromCSV()
+LoadAPuzzleFromCSV()
+
+print(theNumbers)
 
 #PrintGrid()
 while running:
