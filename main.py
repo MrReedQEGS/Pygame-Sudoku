@@ -39,22 +39,19 @@ numGoingIntoGrid = ""
 highlightNum = ""
 
 #images
-infoImageName = "./Info.jpg"
-infoImageGreyName = "./InfoGrey.jpg"
-infoImage = pygame.image.load(infoImageName).convert()
-infoGreyImage = pygame.image.load(infoImageGreyName).convert()
-oneImageName = "./1.jpg"
-oneImageGreyName = "./1Grey.jpg"
-oneImage = pygame.image.load(oneImageName).convert()
-oneGreyImage = pygame.image.load(oneImageGreyName).convert()
-twoImageName = "./2.jpg"
-twoImageGreyName = "./2Grey.jpg"
-twoImage = pygame.image.load(twoImageName).convert()
-twoGreyImage = pygame.image.load(twoImageGreyName).convert()
-threeImageName = "./3.jpg"
-threeImageGreyName = "./3Grey.jpg"
-threeImage = pygame.image.load(threeImageName).convert()
-threeGreyImage = pygame.image.load(threeImageGreyName).convert()
+infoImage = pygame.image.load("./Info.jpg").convert()
+infoGreyImage = pygame.image.load("./InfoGrey.jpg").convert()
+
+#Load button images into lists
+numberButtons = []
+numberGreyButtons = []
+for i in range(GRID_SIZE):
+  fileName = "./"+str(i+1)+".jpg"
+  someButton = pygame.image.load(fileName).convert()
+  numberButtons.append(someButton)
+  greyFileName = "./"+str(i+1)+"Grey.jpg"
+  someButton = pygame.image.load(greyFileName).convert()
+  numberGreyButtons.append(someButton)
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
@@ -145,19 +142,26 @@ class MyToggleImageButton:
 
 #Make some notes in each grid cell
 #This is for testing
-def MakeNotes():
-  fullNotes = [1,2,3,4,5,6,7,8,9]
+def MakeEmptyNotes():
   for i in range(GRID_SIZE):
     newRow = []
     for j in range(GRID_SIZE):
-      newRow.append(fullNotes)
+      newRow.append(EMPTY_NOTES)
     theNotes.append(newRow)
 
+#This is for testing
 def RemoveRandomNumbersFromGrid():
   for i in range(30):
     j = random.randint(0,8)
     i = random.randint(0,8)
     theNumbers[j][i] = ""
+    randomNotes = [1,2,3,4,5,6,7,8,9]
+    
+    #Remove some random notes to make it look more realistic
+    for x in range(10):
+      someNum = random.randint(0,8)
+      randomNotes[someNum]=""
+    theNotes[i][j] = randomNotes
     
 #It is not a valid grid in terms of game play.  This is just a test function to allow me to 
 #make sure the numbers line up when it is all printed out.
@@ -329,6 +333,8 @@ def TwoButtonCallback(isItGrey):
   theOneButton.currentImg = theOneButton.greyImg
   theThreeButton.grey=True
   theThreeButton.currentImg = theThreeButton.greyImg
+  theFourButton.grey=True
+  theFourButton.currentImg = theThreeButton.greyImg
 
 def ThreeButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
@@ -348,17 +354,42 @@ def ThreeButtonCallback(isItGrey):
   theOneButton.currentImg = theOneButton.greyImg
   theTwoButton.grey=True
   theTwoButton.currentImg = theTwoButton.greyImg
+  theFourButton.grey=True
+  theFourButton.currentImg = theThreeButton.greyImg
+  
+def FourButtonCallback(isItGrey):
+  global editMode,numGoingIntoGrid
+  print("Four button")
+  print(isItGrey)
+  
+  if(isItGrey == False):
+    #We are enabling edit mode to allow this number to go into the grid
+    editMode = True
+    numGoingIntoGrid = "4"
+  else:
+    editMode = False
+    numGoingIntoGrid = ""
+  
+  #Reset the other buttons - only one can be on
+  theOneButton.grey=True
+  theOneButton.currentImg = theOneButton.greyImg
+  theTwoButton.grey=True
+  theTwoButton.currentImg = theTwoButton.greyImg
+  theThreeButton.grey=True
+  theThreeButton.currentImg = theThreeButton.greyImg
   
 theInfoButton = MyClickableImageButton(grid_x0,grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,infoImage,infoGreyImage,surface,InfoButtonCallback)
-theOneButton = MyToggleImageButton(grid_x0+1*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,oneImage,oneGreyImage,surface,OneButtonCallback)
-theTwoButton = MyToggleImageButton(grid_x0+2*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,twoImage,twoGreyImage,surface,TwoButtonCallback)
-theThreeButton = MyToggleImageButton(grid_x0+3*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,threeImage,threeGreyImage,surface,ThreeButtonCallback)
+theOneButton = MyToggleImageButton(grid_x0+1*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[0],numberGreyButtons[0],surface,OneButtonCallback)
+theTwoButton = MyToggleImageButton(grid_x0+2*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[1],numberGreyButtons[1],surface,TwoButtonCallback)
+theThreeButton = MyToggleImageButton(grid_x0+3*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[2],numberGreyButtons[2],surface,ThreeButtonCallback)
+theFourButton = MyToggleImageButton(grid_x0+4*+(CELL_SIZE+NUM_BUTTON_X_GAP),grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,numberButtons[3],numberGreyButtons[3],surface,FourButtonCallback)
 
 
 running = True
-EmptyGrid()
-MakeNotes()
-#RandomGrid()
+#EmptyGrid()
+MakeEmptyNotes()
+RandomGrid()
+
 
 #PrintGrid()
 while running:
@@ -404,6 +435,7 @@ while running:
   theOneButton.DrawSelf()
   theTwoButton.DrawSelf()
   theThreeButton.DrawSelf()
+  theFourButton.DrawSelf()
 
   pygame.display.flip()
   clock.tick(FPS)
