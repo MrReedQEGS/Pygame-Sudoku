@@ -16,8 +16,6 @@ WINDOW_TEXT = "My game"
 surface = pygame.display.set_mode((WINDOW_W,WINDOW_H))
 pygame.display.set_caption(WINDOW_TEXT)
 
-FILE_NAME = "HardProbSet.csv"
-
 GRID_SIZE = 9                  # 9x9 cells
 CELL_SIZE = 40                 # pixels per cell
 LINE_THICKNESS_THIN = 2
@@ -209,22 +207,35 @@ def EmptyGrid():
     theNumbers.append(emptyRow)
 
 def LoadAPuzzleFromCSV():
-  global theNumbers
-  #f = open(FILE_NAME,"r")
-  #for line in f:
-  #  print(line.strip())
-  #  break
-  #f.close()
-  
-  theNumbers = [["0", "0", "0", "0", "0", "2", "0", "0", "0"],
-                ["0", "0", "1", "7", "3", "0", "0", "5", "2"],
-                ["5", "0", "0", "0", "9", "4", "7", "0", "3"],
-                ["6", "2", "4", "3", "0", "0", "0", "0", "0"],
-                ["8", "0", "0", "0", "0", "0", "0", "3", "0"],
-                ["9", "5", "0", "0", "0", "0", "6", "0", "0"],
-                ["2", "0", "8", "0", "0", "0", "0", "0", "5"],
-                ["0", "0", "6", "4", "0", "0", "0", "2", "7"],
-                ["0", "4", "0", "0", "0", "7", "8", "6", "0"]]
+    global theNumbers
+    file = open("EasyProbSet.csv", "r")
+    data = file.read().split("\n")
+    random.shuffle(data)
+    x = data.index("")
+    del data[x]
+    # print(data)
+    s = random.choice(data)
+    prob = []
+    row = []
+    i = 0
+    while (True):
+        count = 0
+        for j in s:
+            if (count < 9):
+                if (j != "["):
+                    if (j != "]"):
+                        if (j != "," and j != " "):
+                            row.append(str(j))
+                            count += 1
+            else:
+                prob.append(row)
+                row = []
+                i += 1
+                count = 0
+        if (i == 9):
+            break
+    theNumbers = prob
+    file.close()
     
 def PrintGrid():
   for i in range(GRID_SIZE):
@@ -626,8 +637,8 @@ EmptyGrid()
 #MakeRandomNotes()
 #RandomGrid()
 LoadAPuzzleFromCSV()
+print(theNumbers)
 
-#PrintGrid()
 while running:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
