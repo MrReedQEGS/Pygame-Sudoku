@@ -9,7 +9,7 @@ DEBUG_PRINT = True
 # --- Config ---
 WINDOW_W, WINDOW_H = 640, 720
 FPS = 60
-WINDOW_TEXT = "My game"
+WINDOW_TEXT = "My suduko game"
 
 # create the display surface object
 # of specific dimension.
