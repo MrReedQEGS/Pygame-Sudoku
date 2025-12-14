@@ -664,7 +664,7 @@ EmptyGrid()
 #MakeRandomNotes()
 #RandomGrid()
 LoadAPuzzleFromCSV()
-print(theNumbers)
+#print(theNumbers)
 
 while running:
   for event in pygame.event.get():
@@ -694,7 +694,7 @@ while running:
               highlightNum = numGoingIntoGrid
         else:
           highlightedCells = []
-          
+  
   # Background
   screen.fill(WHITE)
 
@@ -717,6 +717,17 @@ while running:
   theEightButton.DrawSelf()
   theNineButton.DrawSelf()
 
+  if(editMode == True):
+    mouse_pos = pygame.mouse.get_pos()
+
+    # draw a number that follows the mouse
+    #posIWant = (mouse_pos[0]-10,mouse_pos[1]+10)
+          
+    x = int(numGoingIntoGrid)-1
+    colour = COLORS[x]
+    number_surf = font.render(str(numGoingIntoGrid), True, colour)
+    number_rect = number_surf.get_rect(center=mouse_pos)
+    screen.blit(number_surf, number_rect)
 
   pygame.display.flip()
   clock.tick(FPS)
