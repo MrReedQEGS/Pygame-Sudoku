@@ -209,7 +209,7 @@ def EmptyGrid():
     theNumbers.append(emptyRow)
 
 def LoadAPuzzleFromCSV():
-  #global theNumbers
+  global theNumbers
   #f = open(FILE_NAME,"r")
   #for line in f:
   #  print(line.strip())
@@ -343,7 +343,7 @@ def AddNumberToACell(theCell):
 
 def InfoButtonCallback():
   #Testing button callback
-  print("Hello")
+  print("Info button stuff will print out!!!")
 
 def OneButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
@@ -626,8 +626,6 @@ EmptyGrid()
 #MakeRandomNotes()
 #RandomGrid()
 LoadAPuzzleFromCSV()
-
-print(theNumbers)
 
 #PrintGrid()
 while running:
