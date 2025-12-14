@@ -384,6 +384,9 @@ def OneButtonCallback(isItGrey):
   theEightButton.currentImg = theEightButton.greyImg
   theNineButton.grey=True
   theNineButton.currentImg = theNineButton.greyImg
+  
+  if(numGoingIntoGrid != "0"):
+     AddAllNumsToHighlightList(numGoingIntoGrid)
 
 def TwoButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
@@ -413,6 +416,9 @@ def TwoButtonCallback(isItGrey):
   theEightButton.currentImg = theEightButton.greyImg
   theNineButton.grey=True
   theNineButton.currentImg = theNineButton.greyImg
+  
+  if(numGoingIntoGrid != "0"):
+     AddAllNumsToHighlightList(numGoingIntoGrid)
   
 
 def ThreeButtonCallback(isItGrey):
@@ -444,6 +450,9 @@ def ThreeButtonCallback(isItGrey):
   theNineButton.grey=True
   theNineButton.currentImg = theNineButton.greyImg
   
+  if(numGoingIntoGrid != "0"):
+     AddAllNumsToHighlightList(numGoingIntoGrid)
+  
 def FourButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
   
@@ -472,6 +481,9 @@ def FourButtonCallback(isItGrey):
   theEightButton.currentImg = theEightButton.greyImg
   theNineButton.grey=True
   theNineButton.currentImg = theNineButton.greyImg
+  
+  if(numGoingIntoGrid != "0"):
+     AddAllNumsToHighlightList(numGoingIntoGrid)
 
 def FiveButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
@@ -501,6 +513,9 @@ def FiveButtonCallback(isItGrey):
   theEightButton.currentImg = theEightButton.greyImg
   theNineButton.grey=True
   theNineButton.currentImg = theNineButton.greyImg
+  
+  if(numGoingIntoGrid != "0"):
+     AddAllNumsToHighlightList(numGoingIntoGrid)
 
 def SixButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
@@ -530,6 +545,9 @@ def SixButtonCallback(isItGrey):
   theEightButton.currentImg = theEightButton.greyImg
   theNineButton.grey=True
   theNineButton.currentImg = theNineButton.greyImg
+  
+  if(numGoingIntoGrid != "0"):
+     AddAllNumsToHighlightList(numGoingIntoGrid)
 
 def SevenButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
@@ -559,6 +577,9 @@ def SevenButtonCallback(isItGrey):
   theEightButton.currentImg = theEightButton.greyImg
   theNineButton.grey=True
   theNineButton.currentImg = theNineButton.greyImg
+  
+  if(numGoingIntoGrid != "0"):
+     AddAllNumsToHighlightList(numGoingIntoGrid)
 
 def EightButtonCallback(isItGrey):
   global editMode,numGoingIntoGrid
@@ -588,6 +609,9 @@ def EightButtonCallback(isItGrey):
   theSevenButton.currentImg = theSevenButton.greyImg
   theNineButton.grey=True
   theNineButton.currentImg = theNineButton.greyImg
+  
+  if(numGoingIntoGrid != "0"):
+     AddAllNumsToHighlightList(numGoingIntoGrid)
 
 
 def NineButtonCallback(isItGrey):
@@ -618,6 +642,9 @@ def NineButtonCallback(isItGrey):
   theSevenButton.currentImg = theSevenButton.greyImg
   theEightButton.grey=True
   theEightButton.currentImg = theEightButton.greyImg
+  
+  if(numGoingIntoGrid != "0"):
+     AddAllNumsToHighlightList(numGoingIntoGrid)
 
 buttonPanelOffset = -45 
 theInfoButton = MyClickableImageButton(buttonPanelOffset+grid_x0,grid_y0+CELL_SIZE*GRID_SIZE+BUTTON_PANEL_GAP_Y,infoImage,infoGreyImage,surface,InfoButtonCallback)
@@ -660,11 +687,11 @@ while running:
               highlightedCells = []
               
           else:
-            highlightedCells = []
             #We might be in edit mode - so put a number into this cell??
             if(editMode == True):
               AddNumberToACell(someCell)
-              highlightNum = "0"
+              AddAllNumsToHighlightList(numGoingIntoGrid)
+              highlightNum = numGoingIntoGrid
         else:
           highlightedCells = []
           
